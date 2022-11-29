@@ -245,23 +245,24 @@
 						</div>				  						
 						<div id="menu1" align="center">
     						<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
-      							<label for="from">From:</label>
-      							<input type="text" id="from" name="from" required="required" placeholder="Source Address" size="30" /><br>
-      							<img src="img/geolocation.png" width="25"/>
-      							<a id="from-link" href="#">Use My Location</a>
+								<label for="membership">Choose a Bart Line</label>
+								<select name="membership" id="membership">
+								  <option value="Green">Green Line</option>
+								  <option value="yellow">Yellow Line</option>
+								  <option value="red" selected>Red Line </option>
+								  <option value="blue">Blue Line</option>
+								  <option value="Orange">Orange Line</option>
+								</select>
+      							
       							<br />
 
-      							<label for="to">To:</label>
-      							<input type="text" id="to" name="to" required="required" placeholder="Destination address" size="30" /><br>
-      							<img src="img/geolocation.png" width="25"/>
-      							<a id="to-link" href="#">Use My Location</a>
+      							
+      						<button type="submit" class="btn btn-blue btn-effect"/>Submit</button>
       							<br/><br>
-      							<button type="submit" class="btn btn-blue btn-effect"/>Get Directions</button>
-      							<button type="reset" onclick="unset();" class="btn btn-blue btn-effect"/>Reset</button>
+      							
+      							
     						</form>
-    						<div class="col-md-4" id="map"></div>
-    						<div class="col-md-7 col-md-offset-1" id="textDirection"></div><br>
-    						<div class="col-md-11 col-sm-11 col-xs-11 img-responsive" id="instafeed"><b><p class="lead" style="text-align: center;">Explore Your Destination On Instagram</p></b></div>
+    						
     					</div>
 
 						</div>
@@ -284,27 +285,21 @@
 						<div class="sec-title text-center">
 							<h2 class="wow animated bounceInLeft">ACE</h2>
 						</div>	
-						<div id="menu0" align="center">
-  							<form id="destinationForm" onsubmit="return gettime();" method="post" action="outdata.php" > 
-  								  <label for="mode1">Mode:</label>
-                                  <div id="menu1" align="center">
-    						<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
-      							<label for="from">From:</label>
-      							<input type="text" id="from" name="from" required="required" placeholder="Source Address" size="30" /><br>
-      							<img src="img/geolocation.png" width="25"/>
-      							<a id="from-link" href="#">Use My Location</a>
-      							<br />
-
-      							<label for="to">To:</label>
-      							<input type="text" id="to" name="to" required="required" placeholder="Destination address" size="30" /><br>
-      							<img src="img/geolocation.png" width="25"/>
-      							<a id="to-link" href="#">Use My Location</a>
-      							<br/><br>
-      							<button type="submit" class="btn btn-blue btn-effect"/>Get Directions</button>
-      							<button type="reset" onclick="unset();" class="btn btn-blue btn-effect"/>Reset</button>
-    						</form>
-    						<div class="col-md-4" id="map"></div>
-                                	
+						
+  						 <div id="menu1" align="center">
+									<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
+										<label for="membership">Choose a ACE Line</label>
+										<select name="membership" id="membership">
+												  <option value="Green">Green Line</option>
+										  <option value="yellow">Yellow Line</option>
+										  <option value="red" selected>Red Line </option>
+										  <option value="blue">Blue Line</option>
+										  <option value="Orange">Orange Line</option>
+										</select>
+										<br/>
+    						
+							<button type="submit" class="btn btn-blue btn-effect"/>Submit</button>
+									</form>
                                 </div>
   						</div>
 					</div>
@@ -319,23 +314,20 @@
 					
 						<div class="sec-title text-center wow animated fadeInDown">
 							<h2>CALTRAIN</h2>
+							</div>
 						<div id="menu1" align="center">
     						<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
-      							<label for="from">From:</label>
-      							<input type="text" id="from" name="from" required="required" placeholder="Source Address" size="30" /><br>
-      							<img src="img/geolocation.png" width="25"/>
-      							<a id="from-link" href="#">Use My Location</a>
-      							<br />
-
-      							<label for="to">To:</label>
-      							<input type="text" id="to" name="to" required="required" placeholder="Destination address" size="30" /><br>
-      							<img src="img/geolocation.png" width="25"/>
-      							<a id="to-link" href="#">Use My Location</a>
-      							<br/><br>
-      							<button type="submit" class="btn btn-blue btn-effect"/>Get Directions</button>
-      							<button type="reset" onclick="unset();" class="btn btn-blue btn-effect"/>Reset</button>
+								<label for="membership">Choose CALTRAIN Line</label>
+								<select name="membership" id="membership">
+								  <option value="Green">North Bound</option>
+								  <option value="yellow">South Bound</option>	
+								  
+								</select>
+								<br/>
+					
+					<button type="submit" class="btn btn-blue btn-effect"/>Submit</button>
     						</form>
-    						<div class="col-md-4" id="map"></div>
+    						
 							
 						</div>
 						 <div id="jmap"></div>
@@ -354,21 +346,16 @@
 							<h2>VTA</h2>
 							<div id="menu1" align="center">
     						<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
-      							<label for="from">From:</label>
-      							<input type="text" id="from" name="from" required="required" placeholder="Source Address" size="30" /><br>
-      							<img src="img/geolocation.png" width="25"/>
-      							<a id="from-link" href="#">Use My Location</a>
-      							<br />
-
-      							<label for="to">To:</label>
-      							<input type="text" id="to" name="to" required="required" placeholder="Destination address" size="30" /><br>
-      							<img src="img/geolocation.png" width="25"/>
-      							<a id="to-link" href="#">Use My Location</a>
-      							<br/><br>
-      							<button type="submit" class="btn btn-blue btn-effect"/>Get Directions</button>
-      							<button type="reset" onclick="unset();" class="btn btn-blue btn-effect"/>Reset</button>
-    						</form>
-    						<div class="col-md-4" id="map"></div>
+								<label for="membership">Choose a VTA Line</label>
+								<select name="membership" id="membership">
+								  <option value="22">22</option>
+								  <option value="23">23</option>
+								 
+								</select>
+								<br/>
+					
+					<button type="submit" class="btn btn-blue btn-effect"/>Submit</button>
+    						
 							
 						</div>
 						 <div id="jmap"></div>
