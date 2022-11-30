@@ -1,6 +1,6 @@
 <?php 
 // EDIT THE 2 LINES BELOW AS REQUIRED
-$send_email_to = "bayareatransitsjsu@gmail.com";
+$send_email_to = "transitnow280@gmail.com";
 $email_subject = "Connection on your Website";
 
 //GET FIELDS FROM YOUR HTML FORM, THE NAME PROPERTY IS PASSED IN THE $_POST ARRAY
