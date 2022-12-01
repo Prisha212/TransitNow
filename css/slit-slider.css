@@ -155,18 +155,17 @@
 }
 
 .bg-img-1 {
-	background-image: url(../img/slider/bart.jpg);
+	background-image: url(../img/slider/ace-train.jpg);
 }
 .bg-img-2 {
-	background-image: url(../img/slider/ace-train.jpg);
+	background-image: url(../img/slider/vta.jpg);
 }
 .bg-img-3 {
 	background-image: url(../img/slider/caltrain.jpg);
 }
 .bg-img-4 {
-	background-image: url(../img/slider/vta.jpg);
+	background-image: url(../img/slider/bart.jpg);
 }
-
 
 
 /* Animations for content elements */

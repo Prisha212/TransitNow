@@ -2,20 +2,24 @@
 <!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
-    <head>
-    	<!-- meta character set -->
-        <meta charset="utf-8">
+<!--[if gt IE 8]><!-->
+<html lang="en" class="no-js">
+	<!--<![endif]-->
+
+	<head>
+		<!-- meta character set -->
+		<meta charset="utf-8">
 		<!-- Always force latest IE rendering engine or request Chrome Frame -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Transit Now</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Transit Now</title>
 		<!-- Meta Description -->
-        <meta name="description" content="bay area transit provides one click solution for your navigation needs. It provides real time updates for bay area bus and train services">
-        <meta name="keywords" content="bay area transit,google maps,vta,bart,real time transit,next bus train time">
-        <meta name="author" content="Sanjana,Priyanka,Udaya,Abhishek">
+		<meta name="description"
+			content="bay area transit provides one click solution for your navigation needs. It provides real time updates for bay area bus and train services">
+		<meta name="keywords" content="bay area transit,google maps,vta,bart,real time transit,next bus train time">
+		<meta name="author" content="Sanjana,Priyanka,Udaya,Abhishek">
 
 		<!-- Mobile Specific Meta -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- CSS
 		================================================== -->
@@ -23,342 +27,336 @@
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
 
 		<!-- Fontawesome Icon font -->
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
 		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/jquery.fancybox.css">
+		<link rel="stylesheet" href="css/jquery.fancybox.css">
 		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/owl.carousel.css">
+		<link rel="stylesheet" href="css/owl.carousel.css">
 		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/slit-slider.css">
+		<link rel="stylesheet" href="css/slit-slider.css">
 		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/animate.css">
+		<link rel="stylesheet" href="css/animate.css">
 		<!-- Main Stylesheet -->
-        <link rel="stylesheet" href="css/main.css">
-        <!--Google Map - Trip Planner -->
+		<link rel="stylesheet" href="css/main.css">
+		<!--Google Map - Trip Planner -->
 
 		<!-- Modernizer Script for old Browsers -->
-        <script src="js/modernizr-2.6.2.min.js"></script>
-        <!-- Script for 511 API -->
-        <script>
+		<script src="js/modernizr-2.6.2.min.js"></script>
+		<!-- Script for 511 API -->
+		<script>
 			function$.ajax({
-			type: "POST",
-			url: myurl.php,
-			data: data_string,
-			timeout: 6000,
-			success: function () {
+				type: "POST",
+				url: myurl.php,
+				data: data_string,
+				timeout: 6000,
+				success: function () {
+				}
+			});
+
+		</script>
+		<style>
+			.tabcontent {
+				display: none;
+				border: 1px solid #ccc;
+				border-top: none;
 			}
-    });
-
-        </script>
-        <style>
-        .tabcontent {
-      display: none;
-      border: 1px solid #ccc;
-      border-top: none;
-
-
-
-    }
-    #map {
-      height: 400px;
-      width: 400px;
-
-
-    table { width:30%;
-
-
-           }
-    th {
-      height: 10px;
-    }
-    table, th, td { border: solid 1px #DDD;
-        border-collapse: collapse; padding: 2px 3px; text-align: center;
-    }
-
-        </style>
-        <script type="text/javascript"
-          charset="utf-8"
-          src=
-          "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
-        </script>
-        <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDcPwALh103uGlDrdPVD2xcKmA7BY5Weo&callback=initMap">
-        </script>
-        <script>
-        function clicked()
-        {
-           var myVar = document.getElementById('vta').value;
-          alert("I have been clicked"+myVar);
-        }
-        function opentab(evt,tabname){
-             var i,tablinks,tabcontent;
-             tabcontent=document.getElementsByClassName("tabcontent");
-
-
-             for(i=0;i<tabcontent.length;i++)
-             {
-                tabcontent[i].style.display="none";
-            }
-             tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace("active", "");
-            }
-            document.getElementById(tabname).style.display = "block";
-            evt.currentTarget.className += " active";
-         };
-         var final=[]
-         var num=22;
-         async function drawroute(num,dir){
-           url='https://gis.vta.org/gis/rest/services/Transit/BusRoutes_StopsJanuary2020_ODP/MapServer/1/query?where=LineID1%20%3D%20%27'+num+'%27&outFields=*&outSR=4326&f=geojson'
-
-             const response = await fetch(url);
-             var res = await response.json();
-               console.log(res['features'][1]);
-               if(dir=="0")
-               {
-                 return res['features'][1];
-               }
-               else {
-                  return res['features'][0];
-               }
-
-             console.log(res);
-              //console.log(Object.keys(res[1][0]));
-              //console.log(res[1][0]["value"]);
-              //console.log(res[1][0]["date"]);
-
-
-
-
-
-
-
-            }
-
-          async function getname(url)
-          {
-            const response = await fetch(url);
-            var res = await response.json();
-            console.log(res);
-            return res;
-          }
-
-         let arrHead = new Array();
-           async function timetable(num,dir)
-           {
-             console.log("Iam in timetable");
-             url1='https://api.511.org/transit/timetable?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e&operator_id=SC&line_id='+num+'&format=json';
-             const response = await fetch(url1);
-             var res = await response.json();
-             console.log(res);
-               console.log("Iam in timetable2");
-               if(dir=="0")
-               {
-             var s=res['Content']['TimetableFrame'][0]['vehicleJourneys']['ServiceJourney'][2]['calls']['Call'];
-              var z= res['Content']['TimetableFrame'][0]['vehicleJourneys']['ServiceJourney']
-           }
-           else {
-             var s=res['Content']['TimetableFrame'][3]['vehicleJourneys']['ServiceJourney'][5]['calls']['Call'];
-             var z= res['Content']['TimetableFrame'][3]['vehicleJourneys']['ServiceJourney']
-           }
-             console.log(s);
-
-             console.log(z)
-               console.log("Iam in timetable3");
-
-
-             //const map2 = new Map();
-             let promiseArray = [];
-             for (const x of s)
-             {
-               console.log(x);
-               console.log(x['ScheduledStopPointRef']['ref']);
-               //url2='https://api.511.org/transit/stopplaces?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json';
-               //const secondresponse=await fetch(url2);
-               //var nextres=await secondresponse.json();
-                //promiseArray.push(fetch('https://api.511.org/transit/stopplaces?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json'))
-               //console.log(nextres['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name']);
-               var s=await getname('https://api.511.org/transit/stopplaces?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json')
-
-               arrHead.push(s['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name'])
-             }
-
-             //var t=await tablegetname( promiseArray)
-               console.log("Iam in timetable4");
-
-
-             console.log(arrHead)
-
-
-             b=[]
-             b.push(arrHead,z)
-             return b;
-           }
-
-
-           // first create a TABLE structure by adding few headers.
-           async function createTable(num,dir) {
-                var b= await timetable(num,dir);
-                arrHead=b[0];
-                var z=b[1];
-
-               let empTable = document.createElement('table');
-               empTable.setAttribute('id', 'empTable');  // table id.
-
-               let tr = empTable.insertRow(-1);
-
-               for (let h = 0; h < arrHead.length; h++) {
-                   let th = document.createElement('th'); // the header object.
-                   th.innerHTML = arrHead[h];
-                   tr.appendChild(th);
-               }
-
-               let div = document.getElementById('cont');
-               div.appendChild(empTable);
-               var table = document.getElementById("empTable");
-                var row = table.insertRow(1);
-                var count=1
-                for(let g=0;g<(z.length);g+=4)
-                {
-                   var row = table.insertRow(count);
-                for (let h = 0; h < arrHead.length; h++)
-                {
-                  var cell4=row.insertCell(h);
-                  cell4.innerHTML =z[g]['calls']['Call'][h]['Arrival']['Time'].substring(0, 5);
-                }
-                count+=1
 
-              }
-                 // add table to a container.
-           }
-
-       let map;
-       async function funcName(num,dir){
-         var dir_id;
-          if(dir=='0')
-          {
-             dir_id='W';
-          }
-          else {
-             dir_id='E'
-          }
-         url='https://api.511.org/transit/stops?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&line_id='+num+'&format=json&Direction_id='+dir_id;
-
-           const response = await fetch(url);
-           var res = await response.json();
-           let coord=[]
-           let names=[];
-           var myRegions =
-           {
-       "type": "FeatureCollection",
-       "features": [
-
-       ]
-     }
-            res['Contents']['dataObjects']['ScheduledStopPoint'].forEach(x=>
-            {
-              console.log(x['Location'])
-              const cars = new Array(parseFloat(x['Location']['Longitude']),parseFloat(x['Location']['Latitude']));
-              let yes={"type": "Feature",
-              "properties": {
-                "Name":x['Name']
-              },
-              "geometry": {
-                "coordinates": cars,
-                "type": "Point"
-              }
-            };
-            myRegions["features"].push(yes);
-
-
-    coord.push(cars);
-            })
-
-
-            return myRegions;
-
-            //console.log(Object.keys(res[1][0]));
-            //console.log(res[1][0]["value"]);
-            //console.log(res[1][0]["date"]);
-
-
-
-
-
-
-
-          }
-
-    function initMap() {
-
-
-         map = new google.maps.Map(document.getElementById("map"), {
-           zoom: 4,
-           center: { lat: 37.1661, lng: -119.4494  },
-         });
-
-      map.data.setStyle({
-        fillColor: 'green',
-        strokeWeight: 3
-      })
-
-
-       }
-     async function plot(num,dir)
-     {
-         var k=await funcName(num,dir);
-       const data=k;
-       console.log(data);
-       // NOTE: This uses cross-domain XHR, and may not work on older browsers.
-       var myRegions =data;
-    console.log(myRegions);
-     map.data.addGeoJson(myRegions);
-     map.data.addEventListener('click', function(event) {
-
-       console.log(event.feature.j.Name);
-       alert(event.feature.j.Name)
-
-
-    });
-
-
-    route=await drawroute(num,dir);
-     map.data.addGeoJson(route);
-
-
-
-     }
-       window.initMap = initMap;
-       function loadroute()
-       {
-          var myVar = document.getElementById('vta').value;
-          //initMap();
-           plot(myVar.substring(0, 2),myVar.substring(myVar.length-1));
-          createTable(myVar.substring(0, 2),myVar.substring(myVar.length-1));
-         alert("I have been clicked"+myVar.substring(0, 2));
-       }
-          </script>
-    </head>
-
-    <body id="body">
-
-
-
-        <!--
+			#map {
+				height: 400px;
+				width: 400px;
+
+			}
+				table {
+					width: 30%;
+
+
+				}
+
+				th {
+					height: 10px;
+				}
+
+				table,
+				th,
+				td {
+					border: solid 1px #DDD;
+					border-collapse: collapse;
+					padding: 2px 3px;
+					text-align: center;
+				}
+				#imageBart {
+					display: none;
+				}
+		</style>
+		<script type="text/javascript" charset="utf-8"
+			src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+			</script>
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDcPwALh103uGlDrdPVD2xcKmA7BY5Weo&callback=initMap">
+			</script>
+		<script>
+			function clicked() {
+				var myVar = document.getElementById('vta').value;
+				alert("I have been clicked" + myVar);
+			}
+			function opentab(evt, tabname) {
+				var i, tablinks, tabcontent;
+				tabcontent = document.getElementsByClassName("tabcontent");
+
+
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace("active", "");
+				}
+				document.getElementById(tabname).style.display = "block";
+				evt.currentTarget.className += " active";
+			};
+			var final = []
+			var num = 22;
+			async function drawroute(num, dir) {
+				url = 'https://gis.vta.org/gis/rest/services/Transit/BusRoutes_StopsJanuary2020_ODP/MapServer/1/query?where=LineID1%20%3D%20%27' + num + '%27&outFields=*&outSR=4326&f=geojson'
+
+				const response = await fetch(url);
+				var res = await response.json();
+				console.log(res['features'][1]);
+				if (dir == "0") {
+					return res['features'][1];
+				}
+				else {
+					return res['features'][0];
+				}
+
+				console.log(res);
+				//console.log(Object.keys(res[1][0]));
+				//console.log(res[1][0]["value"]);
+				//console.log(res[1][0]["date"]);
+
+			}
+
+			async function getname(url) {
+				const response = await fetch(url);
+				var res = await response.json();
+				console.log(res);
+				return res;
+			}
+
+			let arrHead = new Array();
+			async function timetable(num, dir) {
+				console.log("Iam in timetable");
+				url1 = 'https://api.511.org/transit/timetable?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e&operator_id=SC&line_id=' + num + '&format=json';
+				const response = await fetch(url1);
+				var res = await response.json();
+				console.log(res);
+				console.log("Iam in timetable2");
+				if (dir == "0") {
+					var s = res['Content']['TimetableFrame'][0]['vehicleJourneys']['ServiceJourney'][2]['calls']['Call'];
+					var z = res['Content']['TimetableFrame'][0]['vehicleJourneys']['ServiceJourney']
+				}
+				else {
+					var s = res['Content']['TimetableFrame'][3]['vehicleJourneys']['ServiceJourney'][5]['calls']['Call'];
+					var z = res['Content']['TimetableFrame'][3]['vehicleJourneys']['ServiceJourney']
+				}
+				console.log(s);
+
+				console.log(z)
+				console.log("Iam in timetable3");
+
+
+				//const map2 = new Map();
+				let promiseArray = [];
+				for (const x of s) {
+					console.log(x);
+					console.log(x['ScheduledStopPointRef']['ref']);
+					//url2='https://api.511.org/transit/stopplaces?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json';
+					//const secondresponse=await fetch(url2);
+					//var nextres=await secondresponse.json();
+					//promiseArray.push(fetch('https://api.511.org/transit/stopplaces?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json'))
+					//console.log(nextres['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name']);
+					var s = await getname('https://api.511.org/transit/stopplaces?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e&operator_id=SC&stop_id=' + x['ScheduledStopPointRef']['ref'] + '&format=json')
+
+					arrHead.push(s['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name'])
+				}
+
+				//var t=await tablegetname( promiseArray)
+				console.log("Iam in timetable4");
+
+
+				console.log(arrHead)
+
+
+				b = []
+				b.push(arrHead, z)
+				return b;
+			}
+
+
+			// first create a TABLE structure by adding few headers.
+			async function createTable(num, dir) {
+				var b = await timetable(num, dir);
+				arrHead = b[0];
+				var z = b[1];
+
+				let empTable = document.createElement('table');
+				empTable.setAttribute('id', 'empTable');  // table id.
+
+				let tr = empTable.insertRow(-1);
+
+				for (let h = 0; h < arrHead.length; h++) {
+					let th = document.createElement('th'); // the header object.
+					th.innerHTML = arrHead[h];
+					tr.appendChild(th);
+				}
+
+				let div = document.getElementById('cont');
+				div.appendChild(empTable);
+				var table = document.getElementById("empTable");
+				var row = table.insertRow(1);
+				var count = 1
+				for (let g = 0; g < (z.length); g += 4) {
+					var row = table.insertRow(count);
+					for (let h = 0; h < arrHead.length; h++) {
+						var cell4 = row.insertCell(h);
+						cell4.innerHTML = z[g]['calls']['Call'][h]['Arrival']['Time'].substring(0, 5);
+					}
+					count += 1
+
+				}
+				// add table to a container.
+			}
+
+			let map;
+			async function funcName(num, dir) {
+				var dir_id;
+				if (dir == '0') {
+					dir_id = 'W';
+				}
+				else {
+					dir_id = 'E'
+				}
+				url = 'https://api.511.org/transit/stops?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&line_id=' + num + '&format=json&Direction_id=' + dir_id;
+
+				const response = await fetch(url);
+				var res = await response.json();
+				let coord = []
+				let names = [];
+				var myRegions =
+				{
+					"type": "FeatureCollection",
+					"features": [
+
+					]
+				}
+				res['Contents']['dataObjects']['ScheduledStopPoint'].forEach(x => {
+					console.log(x['Location'])
+					const cars = new Array(parseFloat(x['Location']['Longitude']), parseFloat(x['Location']['Latitude']));
+					let yes = {
+						"type": "Feature",
+						"properties": {
+							"Name": x['Name']
+						},
+						"geometry": {
+							"coordinates": cars,
+							"type": "Point"
+						}
+					};
+					myRegions["features"].push(yes);
+
+
+					coord.push(cars);
+				})
+
+
+				return myRegions;
+
+				//console.log(Object.keys(res[1][0]));
+				//console.log(res[1][0]["value"]);
+				//console.log(res[1][0]["date"]);
+
+
+
+
+
+
+
+			}
+
+			function initMap() {
+
+
+				map = new google.maps.Map(document.getElementById("map"), {
+					zoom: 4,
+					center: { lat: 37.1661, lng: -119.4494 },
+				});
+
+				map.data.setStyle({
+					fillColor: 'green',
+					strokeWeight: 3
+				})
+
+
+			}
+			async function plot(num, dir) {
+				var k = await funcName(num, dir);
+				const data = k;
+				console.log(data);
+				// NOTE: This uses cross-domain XHR, and may not work on older browsers.
+				var myRegions = data;
+				console.log(myRegions);
+				map.data.addGeoJson(myRegions);
+				map.data.addEventListener('click', function (event) {
+
+					console.log(event.feature.j.Name);
+					alert(event.feature.j.Name)
+
+
+				});
+
+
+				route = await drawroute(num, dir);
+				map.data.addGeoJson(route);
+
+
+
+			}
+			window.initMap = initMap;
+			function loadroute() {
+				var myVar = document.getElementById('vta').value;
+				//initMap();
+				plot(myVar.substring(0, 2), myVar.substring(myVar.length - 1));
+				createTable(myVar.substring(0, 2), myVar.substring(myVar.length - 1));
+				alert("I have been clicked" + myVar.substring(0, 2));
+			}
+
+			// load bart routes
+			function showBart() {
+				document.getElementById('imageBart').style.display = "block";
+
+			}
+		</script>
+	</head>
+
+	<body id="body">
+
+
+
+		<!--
         Fixed Navigation
         ==================================== -->
-        <header id="navigation" class="navbar-inverse navbar-fixed-top animated-header">
-            <div class="container">
-                <div class="navbar-header">
-                    <!-- responsive nav button -->
+		<header id="navigation" class="navbar-inverse navbar-fixed-top animated-header">
+			<div class="container">
+				<div class="navbar-header">
+					<!-- responsive nav button -->
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 						<span class="sr-only">Toggle navigation</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
-                    </button>
+					</button>
 					<!-- /responsive nav button -->
 
 					<!-- logo -->
@@ -366,126 +364,131 @@
 						<a href="#body">Transit Now</a>
 					</h1>
 					<!-- /logo -->
-                </div>
+				</div>
 
 				<!-- main nav -->
-                <nav class="collapse navbar-collapse navbar-right" role="navigation">
-                    <ul id="nav" class="nav navbar-nav">
-                        <li><a href="#body">Home</a></li>
-                        <li><a href="#service">BART</a></li>
-                        <li><a href="#tracker">ACE</a></li>
-                        <li><a href="#portfolio">CalTrain</a></li>
-                        <li><a href="#price">VTA</a></li>
-                        <li><a href="#testimonials">About Us</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
+				<nav class="collapse navbar-collapse navbar-right" role="navigation">
+					<ul id="nav" class="nav navbar-nav">
+						<li><a href="#body">Home</a></li>
+						<li><a href="#service">BART</a></li>
+						<li><a href="#tracker">ACE</a></li>
+						<li><a href="#portfolio">CalTrain</a></li>
+						<li><a href="#price">VTA</a></li>
+						<li><a href="#testimonials">About Us</a></li>
+						<li><a href="#contact">Contact</a></li>
+					</ul>
+				</nav>
 				<!-- /main nav -->
 
-            </div>
-        </header>
-        <!--
+			</div>
+		</header>
+		<!--
         End Fixed Navigation
         ==================================== -->
 
 		<main class="site-content" role="main">
 
-        <!--
+			<!--
         Home Slider
         ==================================== -->
 
-		<section id="home-slider">
-            <div id="slider" class="sl-slider-wrapper">
+			<section id="home-slider">
+				<div id="slider" class="sl-slider-wrapper">
 
-				<div class="sl-slider">
+					<div class="sl-slider">
 
-					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
+						<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25"
+							data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
 
-						<div class="bg-img bg-img-4"></div>
+							<div class="bg-img bg-img-4"></div>
 
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2 class="animated fadeInDown">Transit Now- One stop solution to travel in Bay Area</h2>
-                                <span class="animated fadeInDown"></span>
-                                <a href="#service" class="btn btn-blue btn-effect">BART</a>
-                            </div>
-                        </div>
+							<div class="slide-caption">
+								<div class="caption-content">
+									<h2 class="animated fadeInDown">Transit Now- One stop solution to travel in Bay Area
+									</h2>
+									<span class="animated fadeInDown"></span>
+									<a href="#service" class="btn btn-blue btn-effect">BART</a>
+								</div>
+							</div>
 
-					</div>
+						</div>
 
-					<div class="sl-slide" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
+						<div class="sl-slide" data-orientation="vertical" data-slice1-rotation="10"
+							data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
 
-						<div class="bg-img bg-img-1"></div>
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2>Transit Now- One stop solution to travel in Bay Area</h2>
-                                <span></span>
-                                <a href="#tracker" class="btn btn-blue btn-effect">ACE</a>
-                            </div>
-                        </div>
+							<div class="bg-img bg-img-1"></div>
+							<div class="slide-caption">
+								<div class="caption-content">
+									<h2>Transit Now- One stop solution to travel in Bay Area</h2>
+									<span></span>
+									<a href="#tracker" class="btn btn-blue btn-effect">ACE</a>
+								</div>
+							</div>
 
-					</div>
+						</div>
 
-					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
+						<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3"
+							data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
 
-						<div class="bg-img bg-img-3"></div>
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2>Transit Now- One stop solution to travel in Bay Area</h2>
-                                <span></span>
-                                <a href="#portfolio" class="btn btn-blue btn-effect">CALTRAIN</a>
-                            </div>
-                        </div>
+							<div class="bg-img bg-img-3"></div>
+							<div class="slide-caption">
+								<div class="caption-content">
+									<h2>Transit Now- One stop solution to travel in Bay Area</h2>
+									<span></span>
+									<a href="#portfolio" class="btn btn-blue btn-effect">CALTRAIN</a>
+								</div>
+							</div>
 
-					</div>
+						</div>
 
-					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
+						<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3"
+							data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
 
-						<div class="bg-img bg-img-2"></div>
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2>Transit Now- One stop solution to travel in Bay Area</h2>
-                                <span></span>
-                                <a href="#price" class="btn btn-blue btn-effect">VTA</a>
-                            </div>
-                        </div>
+							<div class="bg-img bg-img-2"></div>
+							<div class="slide-caption">
+								<div class="caption-content">
+									<h2>Transit Now- One stop solution to travel in Bay Area</h2>
+									<span></span>
+									<a href="#price" class="btn btn-blue btn-effect">VTA</a>
+								</div>
+							</div>
 
-					</div>
+						</div>
 
-				</div><!-- /sl-slider -->
+					</div><!-- /sl-slider -->
 
-                <!--
+					<!--
                 <nav id="nav-arrows" class="nav-arrows">
                     <span class="nav-arrow-prev">Previous</span>
                     <span class="nav-arrow-next">Next</span>
                 </nav>
                 -->
 
-                <nav id="nav-arrows" class="nav-arrows hidden-xs hidden-sm visible-md visible-lg">
-                    <a href="javascript:;" class="sl-prev">
-                        <i class="fa fa-angle-left fa-3x"></i>
-                    </a>
-                    <a href="javascript:;" class="sl-next">
-                        <i class="fa fa-angle-right fa-3x"></i>
-                    </a>
-                </nav>
+					<nav id="nav-arrows" class="nav-arrows hidden-xs hidden-sm visible-md visible-lg">
+						<a href="javascript:;" class="sl-prev">
+							<i class="fa fa-angle-left fa-3x"></i>
+						</a>
+						<a href="javascript:;" class="sl-next">
+							<i class="fa fa-angle-right fa-3x"></i>
+						</a>
+					</nav>
 
 
-				<nav id="nav-dots" class="nav-dots visible-xs visible-sm hidden-md hidden-lg">
-					<span class="nav-dot-current"></span>
-					<span></span>
-					<span></span>
-				</nav>
+					<nav id="nav-dots" class="nav-dots visible-xs visible-sm hidden-md hidden-lg">
+						<span class="nav-dot-current"></span>
+						<span></span>
+						<span></span>
+					</nav>
 
-			</div><!-- /slider-wrapper -->
-		</section>
+				</div><!-- /slider-wrapper -->
+			</section>
 
-        <!--
+			<!--
         End Home SliderEnd
         ==================================== -->
 
 			<!-- about section -->
-			<section id="about" >
+			<section id="about">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-11  col-sm-11 wow animated fadeInLeft">
@@ -494,25 +497,41 @@
 								<div id="works">
 									<div class="work-item">
 										<p>BART</p>
-										<p>The BART story began in 1946. It began not by governmental fiat, but as a concept gradually evolving at informal gatherings of business and civic leaders on both sides of the San Francisco Bay.The BART Warm Springs Extension will add 5.4 miles of new track from the existing Fremont Station South to a new station in the Warm Springs District in Fremont.</p>
+										<p>The BART story began in 1946. It began not by governmental fiat, but as a
+											concept gradually evolving at informal gatherings of business and civic
+											leaders on both sides of the San Francisco Bay.The BART Warm Springs
+											Extension will add 5.4 miles of new track from the existing Fremont Station
+											South to a new station in the Warm Springs District in Fremont.</p>
 									</div>
 									<div class="work-item">
 										<p>ACE</p>
-										<p>The Altamont Corridor Express is a commuter rail service in California, connecting Stockton and San Jose during peak hours only. ACE is named for the Altamont Pass, through which it runs. Service is managed by the San Joaquin Regional Rail Commi ssion, and operations are contracted to Herzog Transit Services.</p>
+										<p>The Altamont Corridor Express is a commuter rail service in California,
+											connecting Stockton and San Jose during peak hours only. ACE is named for
+											the Altamont Pass, through which it runs. Service is managed by the San
+											Joaquin Regional Rail Commi ssion, and operations are contracted to Herzog
+											Transit Services.</p>
 									</div>
 									<div class="work-item">
 										<p>CALTRAIN</p>
-										<p>Caltrain provides commuter rail service along the San Francisco Peninsula, through the South Bay to San Jose and Gilroy.The San Francisco and San Jose Railroad Company began passenger rail service on the Peninsula in 1863. The system we know today as Caltrain had its start in 1992, when the Peninsula Corridor Joint Powers Board took over the operation of the train.</p>
+										<p>Caltrain provides commuter rail service along the San Francisco Peninsula,
+											through the South Bay to San Jose and Gilroy.The San Francisco and San Jose
+											Railroad Company began passenger rail service on the Peninsula in 1863. The
+											system we know today as Caltrain had its start in 1992, when the Peninsula
+											Corridor Joint Powers Board took over the operation of the train.</p>
 									</div>
 									<div class="work-item">
 										<p>VTA</p>
-										<p>Valley Transportation Authority (VTA), is a special district responsible for public transit services, congestion management, specific highway improvement projects, and countywide transportation planning for Santa Clara County, California. It serves San Jose, California, and the surrounding Silicon Valley. </p>
+										<p>Valley Transportation Authority (VTA), is a special district responsible for
+											public transit services, congestion management, specific highway improvement
+											projects, and countywide transportation planning for Santa Clara County,
+											California. It serves San Jose, California, and the surrounding Silicon
+											Valley. </p>
 
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 			</section>
 			<!-- end about section -->
 
@@ -526,30 +545,31 @@
 							<h2 class="wow animated bounceInLeft">BART</h2>
 						</div>
 						<div id="menu1" align="center">
-    						<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
-								<label for="membership">Choose a Bart Line</label>
-								<select name="membership" id="membership">
-								  <option value="Green">Green Line</option>
-								  <option value="yellow">Yellow Line</option>
-								  <option value="red" selected>Red Line </option>
-								  <option value="blue">Blue Line</option>
-								  <option value="Orange">Orange Line</option>
-								</select>
+							<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
+								<label for="membership">Click below to get Bart routes</label>
+								<!-- <select name="membership" id="membership">
+									<option value="Green">Green Line</option>
+									<option value="yellow">Yellow Line</option>
+									<option value="red" selected>Red Line </option>
+									<option value="blue">Blue Line</option>
+									<option value="Orange">Orange Line</option>
+								</select> -->
 
-      							<br />
-
-
-      						<button type="submit" class="btn btn-blue btn-effect"/>Submit</button>
-      							<br/><br>
-
-
-    						</form>
-
-    					</div>
+								<br/>
+							</form>
+							
+							<button type="button" class="btn btn-blue btn-effect" onclick="showBart()"/>GET ROUTES</button>
+							<br /><br>
+							<div id="Bart">
+								<img src="img/BARTSystemMapAPI-1.jpg" id="imageBart" width="800" height="600" alt="bart">
+							</div>
 
 						</div>
+						
 
 					</div>
+
+				</div>
 				</div>
 			</section>
 			<!-- end Service section -->
@@ -568,23 +588,23 @@
 							<h2 class="wow animated bounceInLeft">ACE</h2>
 						</div>
 
-  						 <div id="menu1" align="center">
-									<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
-										<label for="membership">Choose a ACE Line</label>
-										<select name="membership" id="membership">
-												  <option value="Green">Green Line</option>
-										  <option value="yellow">Yellow Line</option>
-										  <option value="red" selected>Red Line </option>
-										  <option value="blue">Blue Line</option>
-										  <option value="Orange">Orange Line</option>
-										</select>
-										<br/>
+						<div id="menu1" align="center">
+							<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
+								<label for="membership">Choose a ACE Line</label>
+								<select name="membership" id="membership">
+									<option value="Green">Green Line</option>
+									<option value="yellow">Yellow Line</option>
+									<option value="red" selected>Red Line </option>
+									<option value="blue">Blue Line</option>
+									<option value="Orange">Orange Line</option>
+								</select>
+								<br />
 
-							<button type="submit" class="btn btn-blue btn-effect"/>Submit</button>
-									</form>
-                                </div>
-  						</div>
+								<button type="submit" class="btn btn-blue btn-effect" />Submit</button>
+							</form>
+						</div>
 					</div>
+				</div>
 				</div>
 			</section>
 			<!-- end tracker section -->
@@ -596,19 +616,19 @@
 
 						<div class="sec-title text-center wow animated fadeInDown">
 							<h2>CALTRAIN</h2>
-							</div>
+						</div>
 						<div id="menu1" align="center">
-    						<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
+							<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
 								<label for="membership">Choose CALTRAIN Line</label>
 								<select name="membership" id="membership">
-								  <option value="Green">North Bound</option>
-								  <option value="yellow">South Bound</option>
+									<option value="Green">North Bound</option>
+									<option value="yellow">South Bound</option>
 
 								</select>
-								<br/>
+								<br />
 
-					<button type="submit" class="btn btn-blue btn-effect"/>Submit</button>
-    						</form>
+								<button type="submit" class="btn btn-blue btn-effect" />Submit</button>
+							</form>
 
 
 						</div>
@@ -620,39 +640,41 @@
 				</div>
 			</section>
 			<!-- end portfolio section -->
-<section id="price">
+			<section id="price">
 				<div class="container">
 					<div class="row">
 
 						<div class="sec-title text-center wow animated fadeInDown">
 							<h2>VTA</h2>
 							<div id="menu1" align="center">
-              <form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
-              <label for="membership">Choose a VTA Line</label>
-              <select name="membership" id="vta">
-                <option value="22-0">22-Inbound</option>
-                <option value="22-1">22-outbound</option>
-                <option value="23-0">23</option>
+								<form class="search" id="calculate-route" name="calculate-route" action="#"
+									method="get">
+									<label for="membership">Choose a VTA Line</label>
+									<select name="membership" id="vta">
+										<option value="22-0">22-Inbound</option>
+										<option value="22-1">22-outbound</option>
+										<option value="23-0">23</option>
 
-              </select>
-              <br/>
+									</select>
+									<br />
 
-              <button type="button" class="btn btn-blue btn-effect" class="tablinks" onclick="opentab(event,'displayvta');loadroute()"/>Submit</button>
-            </form>
+									<button type="button" class="btn btn-blue btn-effect" class="tablinks"
+										onclick="opentab(event,'displayvta');loadroute()" />Submit</button>
+								</form>
+
+							</div>
+
+
+
 
 						</div>
-
-
-
+					</div>
+					<div id="displayvta" class="tabcontent">
+						<h3>My Google Maps Demo</h3>
+						<div id="map"></div>
+						<div id="cont"></div>
 
 					</div>
-				</div>
-        <div id="displayvta" class="tabcontent">
-          <h3>My Google Maps Demo</h3>
-       <div id="map"></div>
-         <div id="cont"></div>
-
-        </div>
 			</section>
 
 			<!-- Testimonial section -->
@@ -695,11 +717,11 @@
 									</div>
 								</div>
 
-								</div>
 							</div>
-
 						</div>
+
 					</div>
+				</div>
 				</div>
 			</section>
 			<!-- end Testimonial section -->
@@ -714,75 +736,73 @@
 
 
 
-<style>
+			<style>
+				#sub1 {
+					width: 120px;
+				}
 
-#sub1{
-	width:120px;
-}
-#reset1{
-	width:120px;
-}
+				#reset1 {
+					width: 120px;
+				}
+			</style>
 
-</style>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+			<script src="https://www.google.com/jsapi"></script>
+			<script type="text/javascript">
+				google.load("visualization", "1", { packages: ["corechart"] });
+				google.setOnLoadCallback(drawChart);
+			</script>
 
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://www.google.com/jsapi"></script>
-<script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-</script>
+			<script type="text/javascript">
 
-<script type="text/javascript">
-
-     function drawChart(a, b, c, d, e, f, g, h, i, j) {
+				function drawChart(a, b, c, d, e, f, g, h, i, j) {
 
 
-        var data = google.visualization.arrayToDataTable([
-          ['Mode of Transport', 'Users choice'],
-          ['VTA',  parseInt(a)],
-          ['BART',      parseInt(b)],
-		  ['AC Transit', parseInt(c)],
-          ['Cal Train',  parseInt(d)],
-          ['Dumbarton Express', parseInt(e)],
-          ['Marin Transit',parseInt(f)],
-		  ['Sam Trans',parseInt(g)],
-		  ['SF-Muni',parseInt(h)],
-		  ['Vine',parseInt(i)],
-		  ['Westcat',parseInt(j)]
-        ]);
+					var data = google.visualization.arrayToDataTable([
+						['Mode of Transport', 'Users choice'],
+						['VTA', parseInt(a)],
+						['BART', parseInt(b)],
+						['AC Transit', parseInt(c)],
+						['Cal Train', parseInt(d)],
+						['Dumbarton Express', parseInt(e)],
+						['Marin Transit', parseInt(f)],
+						['Sam Trans', parseInt(g)],
+						['SF-Muni', parseInt(h)],
+						['Vine', parseInt(i)],
+						['Westcat', parseInt(j)]
+					]);
 
-        var options = {
-          title: 'User Preference',
-          pieHole: 0.4,
-		  width:800,
-		  height:500,
+					var options = {
+						title: 'User Preference',
+						pieHole: 0.4,
+						width: 800,
+						height: 500,
 
-        };
+					};
 
-        var chart = new google.visualization.PieChart(document.getElementById('div4'));
-        chart.draw(data, options);
-      }
-</script>
-<script>
-$(function () {
-        $("#form").on("submit", function (e) {
-          e.preventDefault();
-          $.ajax({
-            type: "POST",
-            url: "user.php",
-            data: $("#form").serialize(),
-			dataType:"html",
-            success: function (data) {
-				var a = data.split(",")
-				drawChart(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9]);
-            }
-          });
+					var chart = new google.visualization.PieChart(document.getElementById('div4'));
+					chart.draw(data, options);
+				}
+			</script>
+			<script>
+				$(function () {
+					$("#form").on("submit", function (e) {
+						e.preventDefault();
+						$.ajax({
+							type: "POST",
+							url: "user.php",
+							data: $("#form").serialize(),
+							dataType: "html",
+							success: function (data) {
+								var a = data.split(",")
+								drawChart(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9]);
+							}
+						});
 
-        });
+					});
 
-      });
-</script>
-
+				});
+			</script>
 
 
 
@@ -790,17 +810,18 @@ $(function () {
 
 
 
-</form>
-						</div>
+
+			</form>
+			</div>
 
 
-					</div>
-				</div>
+			</div>
+			</div>
 			</section>
 			<!-- end Price section -->
 
 			<!-- Contact section -->
-			<section id="contact" >
+			<section id="contact">
 				<div class="container">
 					<div class="row">
 
@@ -811,28 +832,34 @@ $(function () {
 
 
 						<div class="col-md-7 contact-form wow animated fadeInLeft">
-							<form id="form2" action ="email.php" method="post">
+							<form id="form2" action="email.php" method="post">
 								<div class="input-field">
-									<input type="text" name="name" id="contactName" class="form-control" placeholder="Your Name...">
+									<input type="text" name="name" id="contactName" class="form-control"
+										placeholder="Your Name...">
 								</div>
 								<div class="input-field">
-									<input type="email" name="email" id="contactEmail" class="form-control" placeholder="Your Email...">
+									<input type="email" name="email" id="contactEmail" class="form-control"
+										placeholder="Your Email...">
 								</div>
 								<div class="input-field">
-									<input type="text" name="subject" id="contactSubject" class="form-control" placeholder="Subject...">
+									<input type="text" name="subject" id="contactSubject" class="form-control"
+										placeholder="Subject...">
 								</div>
 								<div class="input-field">
-									<textarea name="message" class="form-control" id="contactMessage" placeholder="Messages..."></textarea>
+									<textarea name="message" class="form-control" id="contactMessage"
+										placeholder="Messages..."></textarea>
 								</div>
-						       	<button type="submit" id="submit" class="btn btn-blue btn-effect" onClick="return resetContactForm();">Send</button>
+								<button type="submit" id="submit" class="btn btn-blue btn-effect"
+									onClick="return resetContactForm();">Send</button>
 							</form>
-                                                        <p class="success" id="p1"></p>
+							<p class="success" id="p1"></p>
 						</div>
 
 						<div class="col-md-5 wow animated fadeInRight">
 							<address class="contact-details">
 								<h3>Contact Us</h3>
-								<p><i class="fa fa-pencil"></i>Techie TransitNow<span>San Jose State University</span> <span>San Jose </span><span>CA, USA</span></p><br>
+								<p><i class="fa fa-pencil"></i>Techie TransitNow<span>San Jose State University</span>
+									<span>San Jose </span><span>CA, USA</span></p><br>
 
 								<p><i class="fa fa-envelope"></i>transitnow280@gmail.com</p>
 							</address>
@@ -849,48 +876,54 @@ $(function () {
 				</div>
 			</section>
 		</main>
-<script>
+		<script>
 
 
-		function resetContactForm(){
-		var s= document.getElementById("contactName");
-  s.value = '';
-document.getElementById('contactEmail').value='';
-document.getElementById('contactSubject').value='';
-document.getElementById('contactMessage').value='';
-document.getElementById("p1").innerHTML="Thank you for your feedback!";
-return false;
+			function resetContactForm() {
+				var s = document.getElementById("contactName");
+				s.value = '';
+				document.getElementById('contactEmail').value = '';
+				document.getElementById('contactSubject').value = '';
+				document.getElementById('contactMessage').value = '';
+				document.getElementById("p1").innerHTML = "Thank you for your feedback!";
+				return false;
 
-		}
+			}
 
-$(function () {
-        $("#form2").on("submit", function (e) {
-          e.preventDefault();
-          $.ajax({
-            type: "POST",
-            url: "email.php",
-            data: $("#form").serialize(),
-			dataType:"html",
-            success: function () {
-			document.getElementById("p1").value="Thanks for the feedback";
-            }
-          });
+			$(function () {
+				$("#form2").on("submit", function (e) {
+					e.preventDefault();
+					$.ajax({
+						type: "POST",
+						url: "email.php",
+						data: $("#form").serialize(),
+						dataType: "html",
+						success: function () {
+							document.getElementById("p1").value = "Thanks for the feedback";
+						}
+					});
 
-        });
+				});
 
-      });
-</script>
+			});
+		</script>
 
 		<footer id="footer">
 			<div class="container">
 				<div class="row text-center">
 					<div class="footer-content">
-							<a class="twitter-timeline"  href="https://twitter.com/bayareatransoln" data-widget-id="663161561230409728">Tweets by @bayareatransoln</a>
-							<div class="footer-social">
+						<a class="twitter-timeline" href="https://twitter.com/bayareatransoln"
+							data-widget-id="663161561230409728">Tweets by @bayareatransoln</a>
+						<div class="footer-social">
 							<ul>
-								<li class="wow animated zoomIn" data-wow-delay="0.3s"><a href="https://twitter.com/bayareatransoln"><i class="fa fa-twitter fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a href="#"><i class="fa fa-skype fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a href="https://www.instagram.com/bayareatransitusa/"><i class="fa fa-instagram fa-3x"></i></a></li>
+								<li class="wow animated zoomIn" data-wow-delay="0.3s"><a
+										href="https://twitter.com/bayareatransoln"><i
+											class="fa fa-twitter fa-3x"></i></a></li>
+								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a href="#"><i
+											class="fa fa-skype fa-3x"></i></a></li>
+								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a
+										href="https://www.instagram.com/bayareatransitusa/"><i
+											class="fa fa-instagram fa-3x"></i></a></li>
 							</ul>
 						</div>
 						<p>Design And developed By Tech Wizards © 2015</p>
@@ -901,42 +934,43 @@ $(function () {
 
 		<!-- Essential jQuery Plugins
 		================================================== -->
-		 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-		 </script>
+		<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");
+		</script>
 		<!-- 511 -->
-        <script src="js/511.js"></script>
+		<script src="js/511.js"></script>
 		<!-- Charts -->
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script src="js/chart.js"></script>
 		<!-- Google API -->
 
-        <!-- Instafeed for To location -->
-        <script src="js/instafeed.min.js"></script>
+		<!-- Instafeed for To location -->
+		<script src="js/instafeed.min.js"></script>
 		<!-- Main jQuery -->
-        <script src="js/jquery-1.11.1.min.js"></script>
-        <!-- Google Map -->
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<!-- Google Map -->
 
 		<!-- Twitter Bootstrap -->
-        <script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 		<!-- Single Page Nav -->
-        <script src="js/jquery.singlePageNav.min.js"></script>
+		<script src="js/jquery.singlePageNav.min.js"></script>
 		<!-- jquery.fancybox.pack -->
-        <script src="js/jquery.fancybox.pack.js"></script>
+		<script src="js/jquery.fancybox.pack.js"></script>
 		<!-- Google Map API -->
 
 		<!-- Owl Carousel -->
-        <script src="js/owl.carousel.min.js"></script>
-        <!-- jquery easing -->
-        <script src="js/jquery.easing.min.js"></script>
-        <!-- Fullscreen slider -->
-        <script src="js/jquery.slitslider.js"></script>
-        <script src="js/jquery.ba-cond.min.js"></script>
+		<script src="js/owl.carousel.min.js"></script>
+		<!-- jquery easing -->
+		<script src="js/jquery.easing.min.js"></script>
+		<!-- Fullscreen slider -->
+		<script src="js/jquery.slitslider.js"></script>
+		<script src="js/jquery.ba-cond.min.js"></script>
 		<!-- onscroll animation -->
-        <script src="js/wow.min.js"></script>
+		<script src="js/wow.min.js"></script>
 		<!-- Custom Functions -->
-        <script src="js/main.js"></script>
-        <script type="text/javascript">
+		<script src="js/main.js"></script>
+		<script type="text/javascript">
 
 		</script>
-    </body>
+	</body>
+
 </html>
