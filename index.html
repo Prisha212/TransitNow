@@ -315,7 +315,7 @@
        var myRegions =data;
     console.log(myRegions);
      map.data.addGeoJson(myRegions);
-     map.data.addListener('click', function(event) {
+     map.data.addEventListener('click', function(event) {
 
        console.log(event.feature.j.Name);
        alert(event.feature.j.Name)
@@ -637,7 +637,7 @@
               </select>
               <br/>
 
-              <button type="submit" class="btn btn-blue btn-effect" class="tablinks" onclick="opentab(event,'displayvta');loadroute()"/>Submit</button>
+              <button type="button" class="btn btn-blue btn-effect" class="tablinks" onclick="opentab(event,'displayvta');loadroute()"/>Submit</button>
             </form>
 
 						</div>
