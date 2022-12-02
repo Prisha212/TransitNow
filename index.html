@@ -20,8 +20,7 @@
 
 		<!-- Mobile Specific Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-				<!-- Bootastrap for bart table -->
-				<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+
 		<!-- CSS
 		================================================== -->
 
@@ -57,7 +56,6 @@
 			});
 
 		</script>
-
 		<style>
 			.tabcontent {
 				display: none;
@@ -66,10 +64,14 @@
 			}
 
 			#map {
-				height: 400px;
-				width: 400px;
+	      height: 400px;
+	      width: 400px;
+	    }
+	    #map2 {
+	      height: 400px;
+	      width: 400px;
+	    }
 
-			}
 				table {
 					width: 30%;
 
@@ -89,17 +91,17 @@
 					text-align: center;
 				}
 				#imageBart {
-					display: none;
-				}
-				#stopsTable {
-					display: none;
-				}
-				.overflow-container {
-					max-height: 400px;
-					max-width: 500px;
-					overflow: auto;
-					align-self: center;
-				}
+		display: none;
+	}
+	#stopsTable {
+		display: none;
+	}
+	.overflow-container {
+		max-height: 400px;
+		max-width: 500px;
+		overflow: auto;
+		align-self: center;
+	}
 		</style>
 		<script type="text/javascript" charset="utf-8"
 			src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
@@ -108,177 +110,338 @@
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDcPwALh103uGlDrdPVD2xcKmA7BY5Weo&callback=initMap">
 			</script>
 		<script>
-			function clicked() {
-				var myVar = document.getElementById('vta').value;
-				alert("I have been clicked" + myVar);
-			}
-			function opentab(evt, tabname) {
-				var i, tablinks, tabcontent;
-				tabcontent = document.getElementsByClassName("tabcontent");
+		<script type="text/javascript"
+			charset="utf-8"
+			src=
+			"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+		</script>
+		<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDcPwALh103uGlDrdPVD2xcKmA7BY5Weo&callback=initMap">
+		</script>
+		<script>
+
+		var storedata={};
+		let map2;
+		async function getdata()
+		{
+			var myVar = document.getElementById('vta').value;
+
+			var url="http://api.511.org/transit/StopMonitoring?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&agency=SC&format=json"
+			const response = await fetch(url);
+			var res = await response.json();
+			console.log(res);
+			 let data = res["ServiceDelivery"]["StopMonitoringDelivery"]["MonitoredStopVisit"];
+			 console.log(data)
+			 var liveBuses=[];
+			 var route=myVar.substring(0,2);
+for (let i = 0; i < data.length; i++) {
+		if (data[i]["MonitoredVehicleJourney"]["LineRef"] === route) {
+				console.log(data[i]["MonitoredVehicleJourney"]["VehicleLocation"])
+				let busRef = data[i]["MonitoredVehicleJourney"]["VehicleLocation"];
+				liveBuses.push(busRef)
+		}
+}
+plotloc(liveBuses)
+}
+
+function plotloc(s)
+{
+	var locarray=[]
+	s.forEach(locations => {
+		console.log(s);
+let location={lat:0,lng:0}
+location.lat=parseFloat(locations.Latitude);
+location.lng=parseFloat(locations.Longitude);
+locarray.push(location);
+})
+console.log(locarray);
+	for(var i=0;i<s.length;i++){
+			marker = new google.maps.Marker({
+				position: locarray[i],
+				animation: google.maps.Animation.DROP,
+				map: map2
+			})
+}
+};
+		function clickbutton()
+		{
+			var k=event.srcElement.id;
+
+				 alert( $(this).closest("th"))
+			console.log(k.substring(k.length-1))
+			display(k.substring(k.length-1));
+		};
+		function clicked()
+		{
+			 var myVar = document.getElementById('vta').value;
+			alert("I have been clicked"+myVar);
+		};
+		function opentab(evt,tabname){
+				 var i,tablinks,tabcontent;
+				 tabcontent=document.getElementsByClassName("tabcontent");
 
 
-				for (i = 0; i < tabcontent.length; i++) {
-					tabcontent[i].style.display = "none";
+				 for(i=0;i<tabcontent.length;i++)
+				 {
+						tabcontent[i].style.display="none";
 				}
-				tablinks = document.getElementsByClassName("tablinks");
+				 tablinks = document.getElementsByClassName("tablinks");
 				for (i = 0; i < tablinks.length; i++) {
-					tablinks[i].className = tablinks[i].className.replace("active", "");
+						tablinks[i].className = tablinks[i].className.replace("active", "");
 				}
 				document.getElementById(tabname).style.display = "block";
 				evt.currentTarget.className += " active";
-			};
-			var final = []
-			var num = 22;
-			async function drawroute(num, dir) {
-				url = 'https://gis.vta.org/gis/rest/services/Transit/BusRoutes_StopsJanuary2020_ODP/MapServer/1/query?where=LineID1%20%3D%20%27' + num + '%27&outFields=*&outSR=4326&f=geojson'
+		 };
+		 var final=[]
+		 var num=22;
+		 async function drawroute(num,dir){
+			 url='https://gis.vta.org/gis/rest/services/Transit/BusRoutes_StopsJanuary2020_ODP/MapServer/1/query?where=LineID1%20%3D%20%27'+num+'%27&outFields=*&outSR=4326&f=geojson'
 
-				const response = await fetch(url);
-				var res = await response.json();
-				console.log(res['features'][1]);
-				if (dir == "0") {
-					return res['features'][1];
+				 const response = await fetch(url);
+				 var res = await response.json();
+
+				 console.log(res['features'][1]);
+				 if(num!=60 && num!=500)
+				 {
+					 if(dir=="0")
+					 {
+						 return res['features'][1];
+					 }
+					 else {
+							return res['features'][0];
+					 }
+				 }
+				 else {
+					 if(dir=="0")
+					 {
+						 return res['features'][0];
+					 }
+					 else {
+							return res['features'][1];
+					 }
+				 }
+
+
+
+				 console.log(res);
+					//console.log(Object.keys(res[1][0]));
+					//console.log(res[1][0]["value"]);
+					//console.log(res[1][0]["date"]);
+
+
+
+
+
+
+
 				}
-				else {
-					return res['features'][0];
-				}
 
-				console.log(res);
-				//console.log(Object.keys(res[1][0]));
-				//console.log(res[1][0]["value"]);
-				//console.log(res[1][0]["date"]);
-
-			}
-
-			async function getname(url) {
+			async function getname(url)
+			{
 				const response = await fetch(url);
 				var res = await response.json();
 				console.log(res);
 				return res;
 			}
 
-			let arrHead = new Array();
-			async function timetable(num, dir) {
-				console.log("Iam in timetable");
-				url1 = 'https://api.511.org/transit/timetable?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e&operator_id=SC&line_id=' + num + '&format=json';
-				const response = await fetch(url1);
-				var res = await response.json();
-				console.log(res);
-				console.log("Iam in timetable2");
-				if (dir == "0") {
-					var s = res['Content']['TimetableFrame'][0]['vehicleJourneys']['ServiceJourney'][2]['calls']['Call'];
-					var z = res['Content']['TimetableFrame'][0]['vehicleJourneys']['ServiceJourney']
-				}
-				else {
-					var s = res['Content']['TimetableFrame'][3]['vehicleJourneys']['ServiceJourney'][5]['calls']['Call'];
-					var z = res['Content']['TimetableFrame'][3]['vehicleJourneys']['ServiceJourney']
-				}
-				console.log(s);
+		 let arrHead = new Array();
+		 var storeid=[]
 
-				console.log(z)
-				console.log("Iam in timetable3");
+			 async function timebuttons(res)
+			 {
+
+				 console.log(res);
+					 console.log("Iam in timetable2");
+					 var checkindex=0;
+					 if(storeid.length>0)
+					 {
+						 console.log("Going in")
+						 for(let i=0;i<storeid.length;i++)
+						 {
+
+							 console.log(storeid[i])
+							 $(storeid[i]).remove();
+						 }
 
 
-				//const map2 = new Map();
-				let promiseArray = [];
-				for (const x of s) {
-					console.log(x);
-					console.log(x['ScheduledStopPointRef']['ref']);
-					//url2='https://api.511.org/transit/stopplaces?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json';
-					//const secondresponse=await fetch(url2);
-					//var nextres=await secondresponse.json();
-					//promiseArray.push(fetch('https://api.511.org/transit/stopplaces?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json'))
-					//console.log(nextres['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name']);
-					var s = await getname('https://api.511.org/transit/stopplaces?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e&operator_id=SC&stop_id=' + x['ScheduledStopPointRef']['ref'] + '&format=json')
+					 }
 
-					arrHead.push(s['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name'])
-				}
+					 for(b in res['Content']['TimetableFrame'] )
+					 {
 
-				//var t=await tablegetname( promiseArray)
-				console.log("Iam in timetable4");
+						 var input = document.createElement('input');
+input.type = 'button';
+input.id = "timeframe"+b;
+input.class="timeframe";
+input.value = res['Content']['TimetableFrame'][b]['Name']; // set the ID
+input.style = 'width: 20';
+
+		 $('.button-option').append(input);
+		 var temp2="#timeframe"+b;
+		 console.log(input.id);
+		 console.log(temp2);
+storeid.push(temp2);
+checkindex+=1
+const btn = document.querySelector("#timeframe"+b);
+btn.addEventListener('click',clickbutton)
+}
+}
+async function timetable(num,res)
+{
+console.log("Iam in timetable");
+url1='https://api.511.org/transit/timetable?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&line_id='+num+'&format=json';
+const response = await fetch(url1);
+storedata = await response.json();
+timebuttons(storedata);
+}
+async function display(number)
+{
+				var a=parseInt(number);
+				arrHead=[];
+
+				 var s=storedata['Content']['TimetableFrame'][a]['vehicleJourneys']['ServiceJourney'][2]['calls']['Call'];
+					var z= storedata['Content']['TimetableFrame'][a]['vehicleJourneys']['ServiceJourney']
+
+				 console.log(s);
+
+				 console.log(z)
+					 console.log("Iam in timetable3");
 
 
-				console.log(arrHead)
+				 //const map2 = new Map();
+				 let promiseArray = [];
+				 for (const x of s)
+				 {
+					 console.log(x);
+					 console.log(x['ScheduledStopPointRef']['ref']);
+					 //url2='https://api.511.org/transit/stopplaces?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json';
+					 //const secondresponse=await fetch(url2);
+					 //var nextres=await secondresponse.json();
+						//promiseArray.push(fetch('https://api.511.org/transit/stopplaces?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json'))
+					 //console.log(nextres['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name']);
+					 var t=await getname('https://api.511.org/transit/stopplaces?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json')
+
+					 arrHead.push(t['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name'])
+				 }
+
+				 //var t=await tablegetname( promiseArray)
+					 console.log("Iam in timetable4");
 
 
-				b = []
-				b.push(arrHead, z)
-				return b;
-			}
+				 console.log(arrHead)
 
 
-			// first create a TABLE structure by adding few headers.
-			async function createTable(num, dir) {
-				var b = await timetable(num, dir);
-				arrHead = b[0];
-				var z = b[1];
+				 b=[]
+				 b.push(arrHead,z)
+				 var temp=b;
+				 b=[]
+				 arrHead=[]
+				 createTable(temp)
 
-				let empTable = document.createElement('table');
-				empTable.setAttribute('id', 'empTable');  // table id.
+			 }
 
-				let tr = empTable.insertRow(-1);
 
-				for (let h = 0; h < arrHead.length; h++) {
-					let th = document.createElement('th'); // the header object.
-					th.innerHTML = arrHead[h];
-					tr.appendChild(th);
-				}
+			 // first create a TABLE structure by adding few headers.
+			 function createTable(b) {
 
-				let div = document.getElementById('cont');
-				div.appendChild(empTable);
-				var table = document.getElementById("empTable");
-				var row = table.insertRow(1);
-				var count = 1
-				for (let g = 0; g < (z.length); g += 4) {
-					var row = table.insertRow(count);
-					for (let h = 0; h < arrHead.length; h++) {
-						var cell4 = row.insertCell(h);
-						cell4.innerHTML = z[g]['calls']['Call'][h]['Arrival']['Time'].substring(0, 5);
-					}
-					count += 1
+						arrHead=b[0];
+						var z=b[1];
 
-				}
-				// add table to a container.
-			}
 
-			let map;
-			async function funcName(num, dir) {
-				var dir_id;
-				if (dir == '0') {
-					dir_id = 'W';
-				}
-				else {
-					dir_id = 'E'
-				}
-				url = 'https://api.511.org/transit/stops?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&line_id=' + num + '&format=json&Direction_id=' + dir_id;
+						console.log("creating table")
+						$('#empTable').empty();
 
-				const response = await fetch(url);
-				var res = await response.json();
-				let coord = []
-				let names = [];
-				var myRegions =
-				{
-					"type": "FeatureCollection",
-					"features": [
+					 let empTable = document.createElement('table');
+					 empTable.setAttribute('id', 'empTable');  // table id.
 
-					]
-				}
-				res['Contents']['dataObjects']['ScheduledStopPoint'].forEach(x => {
-					console.log(x['Location'])
-					const cars = new Array(parseFloat(x['Location']['Longitude']), parseFloat(x['Location']['Latitude']));
-					let yes = {
-						"type": "Feature",
-						"properties": {
-							"Name": x['Name']
-						},
-						"geometry": {
-							"coordinates": cars,
-							"type": "Point"
+					 let tr = empTable.insertRow(0);
+
+					 for (let h = 0; h < arrHead.length; h++) {
+							 let th = document.createElement('th'); // the header object.
+							 th.innerHTML = arrHead[h];
+
+							 tr.appendChild(th);
+					 }
+
+					 let div = document.getElementById('cont');
+					 div.appendChild(empTable);
+					 var table = document.getElementById("empTable");
+
+						var count=1
+						for(let g=0;g<(z.length);g+=4)
+						{
+							 var row = empTable.insertRow(count);
+						for (let h = 0; h < z[g]['calls']['Call'].length; h++)
+						{
+							var cell4=row.insertCell(h);
+
+							console.log(z[g]['calls']['Call'][h]);
+							console.log(z[g]['calls']['Call'][h]['Arrival']['Time'])
+							var test=z[g]['calls']['Call'][h]['Arrival']
+							if(test);
+							{
+							cell4.innerHTML =z[g]['calls']['Call'][h]['Arrival']['Time'].substring(0, 5);
 						}
-					};
-					myRegions["features"].push(yes);
+
+						}
+						count+=1
+
+					}
+						 // add table to a container.
+			 }
+
+	 let map;
+	 async function funcName(num,dir){
+		 var dir_id;
+		 if(num!=60 && num!=500)
+		 {
+			if(dir=='0')
+			{
+				 dir_id='W';
+			}
+			else {
+				 dir_id='E'
+			}
+		}
+		else {
+			if(dir=='0')
+			{
+				 dir_id='N';
+			}
+			else {
+				 dir_id='S'
+			}
+		}
+		 url='https://api.511.org/transit/stops?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&line_id='+num+'&format=json&Direction_id='+dir_id;
+
+			 const response = await fetch(url);
+			 var res = await response.json();
+			 let coord=[]
+			 let names=[];
+			 var myRegions =
+			 {
+	 "type": "FeatureCollection",
+	 "features": [
+
+	 ]
+ }
+				res['Contents']['dataObjects']['ScheduledStopPoint'].forEach(x=>
+				{
+					console.log(x['Location'])
+					const cars = new Array(parseFloat(x['Location']['Longitude']),parseFloat(x['Location']['Latitude']));
+					let yes={"type": "Feature",
+					"properties": {
+						"Name":x['Name']
+					},
+					"geometry": {
+						"coordinates": cars,
+						"type": "Point"
+					}
+				};
+				myRegions["features"].push(yes);
 
 
-					coord.push(cars);
+coord.push(cars);
 				})
 
 
@@ -296,62 +459,83 @@
 
 			}
 
-			function initMap() {
+function initMap() {
 
 
-				map = new google.maps.Map(document.getElementById("map"), {
-					zoom: 4,
-					center: { lat: 37.1661, lng: -119.4494 },
-				});
+		 map = new google.maps.Map(document.getElementById("map"), {
+			 zoom: 6,
+			 center: { lat: 37.1661, lng: -119.4494  },
+		 });
+		 map2 = new google.maps.Map(document.getElementById("map2"), {
+			 zoom: 6,
+			 center: { lat: 37.1661, lng: -119.4494  },
+		 });
 
-				map.data.setStyle({
-					fillColor: 'green',
-					strokeWeight: 3
-				})
-
-
-			}
-			async function plot(num, dir) {
-				var k = await funcName(num, dir);
-				const data = k;
-				console.log(data);
-				// NOTE: This uses cross-domain XHR, and may not work on older browsers.
-				var myRegions = data;
-				console.log(myRegions);
-				map.data.addGeoJson(myRegions);
-				map.data.addEventListener('click', function (event) {
-
-					console.log(event.feature.j.Name);
-					alert(event.feature.j.Name)
-
-
-				});
+	map.data.setStyle({
+		fillColor: 'green',
+		strokeWeight: 3
+	})
+	function pinSymbol(color) {
+			return {
+					path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+					fillColor: color,
+					fillOpacity: 1,
+					strokeColor: '#000',
+					strokeWeight: 2,
+					scale: 1,
+		 };
+	}
 
 
-				route = await drawroute(num, dir);
-				map.data.addGeoJson(route);
+	 }
+ async function plot(num,dir)
+ {
+
+		 var k=await funcName(num,dir);
+	 const data=k;
+	 console.log(data);
+	 // NOTE: This uses cross-domain XHR, and may not work on older browsers.
+	 var myRegions =data;
+console.log(myRegions);
+ map.data.addGeoJson(myRegions);
+ map.data.addListener('click', function(event) {
+
+	 console.log(event.feature.j.Name);
+	 alert(event.feature.j.Name)
+
+
+});
+
+
+route=await drawroute(num,dir);
+
+ map.data.addGeoJson(route);
 
 
 
-			}
-			window.initMap = initMap;
-			function loadroute() {
-				var myVar = document.getElementById('vta').value;
-				//initMap();
-				plot(myVar.substring(0, 2), myVar.substring(myVar.length - 1));
-				createTable(myVar.substring(0, 2), myVar.substring(myVar.length - 1));
-				alert("I have been clicked" + myVar.substring(0, 2));
-			}
+ }
+	 window.initMap = initMap;
+	 function loadroute()
+	 {
+			var myVar = document.getElementById('vta').value;
+			initMap();
+			$('#empTable').empty();
+
+
+			 plot(myVar.substring(0, 2),myVar.substring(myVar.length-1));
+			timetable(myVar.substring(0, 2),myVar.substring(myVar.length-1));
+
+	 }
 
 			// load bart routes
 			function showBart() {
 				document.getElementById('imageBart').style.display = "block";
+
 			}
-			//load bart stations table
 			function showStopsTable() {
 				document.getElementById("stopsTable").style.display = "block";
 			}
-			
+
 		</script>
 	</head>
 
@@ -386,8 +570,7 @@
 					<ul id="nav" class="nav navbar-nav">
 						<li><a href="#body">Home</a></li>
 						<li><a href="#service">BART</a></li>
-						<li><a href="#tracker">ACE</a></li>
-						<li><a href="#portfolio">CalTrain</a></li>
+											<li><a href="#portfolio">CalTrain</a></li>
 						<li><a href="#price">VTA</a></li>
 						<li><a href="#testimonials">About Us</a></li>
 						<li><a href="#contact">Contact</a></li>
@@ -428,19 +611,7 @@
 
 						</div>
 
-						<div class="sl-slide" data-orientation="vertical" data-slice1-rotation="10"
-							data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
 
-							<div class="bg-img bg-img-1"></div>
-							<div class="slide-caption">
-								<div class="caption-content">
-									<h2>Transit Now- One stop solution to travel in Bay Area</h2>
-									<span></span>
-									<a href="#tracker" class="btn btn-blue btn-effect">ACE</a>
-								</div>
-							</div>
-
-						</div>
 
 						<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3"
 							data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
@@ -518,14 +689,7 @@
 											Extension will add 5.4 miles of new track from the existing Fremont Station
 											South to a new station in the Warm Springs District in Fremont.</p>
 									</div>
-									<div class="work-item">
-										<p>ACE</p>
-										<p>The Altamont Corridor Express is a commuter rail service in California,
-											connecting Stockton and San Jose during peak hours only. ACE is named for
-											the Altamont Pass, through which it runs. Service is managed by the San
-											Joaquin Regional Rail Commi ssion, and operations are contracted to Herzog
-											Transit Services.</p>
-									</div>
+
 									<div class="work-item">
 										<p>CALTRAIN</p>
 										<p>Caltrain provides commuter rail service along the San Francisco Peninsula,
@@ -564,7 +728,7 @@
 								<label for="membership">Click below to get Bart routes</label>
 								<br/>
 							</form>
-							
+
 							<button type="button" class="btn btn-blue btn-effect" onclick="showBart()"/>GET ROUTES</button>
 							<br /><br>
 
@@ -573,7 +737,7 @@
 							</div>
 							<br>
 							<br>
-							
+
 							<button style="margin-left: 20px;" type="button" class="btn btn-blue btn-effect" onclick="showStopsTable()"/>LIST OF BART STATIONS</button>
 							<br>
 							<br>
@@ -790,54 +954,21 @@
 								  </table>
 							</div>
 						</div>
-						<div> 
-								
-										
-									
-								
-							
+						<div>
+
+
+
+
+
 						</div>
-						
+
 					</div>
 
 				</div>
-				</div>
-			</section>
-			<!-- end Service section -->
-			<section id="social" class="parallax">
-				<div class="overlay">
-					<div class="container">
-					</div>
 				</div>
 			</section>
 			<!-- tracker Section -->
-			<section id="tracker">
-				<div class="container">
-					<div class="row">
 
-						<div class="sec-title text-center">
-							<h2 class="wow animated bounceInLeft">ACE</h2>
-						</div>
-
-						<div id="menu1" align="center">
-							<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
-								<label for="membership">Choose a ACE Line</label>
-								<select name="membership" id="membership">
-									<option value="Green">Green Line</option>
-									<option value="yellow">Yellow Line</option>
-									<option value="red" selected>Red Line </option>
-									<option value="blue">Blue Line</option>
-									<option value="Orange">Orange Line</option>
-								</select>
-								<br />
-
-								<button type="submit" class="btn btn-blue btn-effect" />Submit</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				</div>
-			</section>
 			<!-- end tracker section -->
 
 			<!-- portfolio section -->
@@ -851,18 +982,25 @@
 						<div id="menu1" align="center">
 							<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
 								<label for="membership">Choose CALTRAIN Line</label>
-								<select name="membership" id="membership">
-									<option value="Green">North Bound</option>
-									<option value="yellow">South Bound</option>
+								<select name="membership"  id="memberships">
+									<option value="north" >North Bound </option>
+									<option value="south">South Bound</option>
 
 								</select>
 								<br />
 
-								<button type="submit" class="btn btn-blue btn-effect" />Submit</button>
+
 							</form>
+							<button type="button" class="btn btn-blue btn-effect" onclick="showCal()">GET ROUTES</button>
+							<br />
+							<div>
+								<img id ="calImages">
+
+							</div>
 
 
 						</div>
+
 
 
 
@@ -870,43 +1008,72 @@
 					</div>
 				</div>
 			</section>
+			<script>
+			 const calimage = {
+				"north": "https://www.metrojacksonville.com/photos/plog-content/images/transit/amtrak-commuter-rail/caltrain-map.jpg",
+				"south" : "https://www.metrojacksonville.com/photos/plog-content/images/transit/amtrak-commuter-rail/caltrain-map.jpg"
+
+
+			};
+
+						//load Cal train routes
+						function showCal()
+						{
+							var img = document.getElementById("calImages");
+						img.src = calimage[document.getElementById("memberships").value];
+						}
+
+
+					</script>
 			<!-- end portfolio section -->
 			<section id="price">
-				<div class="container">
-					<div class="row">
+							<div class="container">
+								<div class="row">
 
-						<div class="sec-title text-center wow animated fadeInDown">
-							<h2>VTA</h2>
-							<div id="menu1" align="center">
-								<form class="search" id="calculate-route" name="calculate-route" action="#"
-									method="get">
-									<label for="membership">Choose a VTA Line</label>
-									<select name="membership" id="vta">
-										<option value="22-0">22-Inbound</option>
-										<option value="22-1">22-outbound</option>
-										<option value="23-0">23</option>
+									<div class="sec-title text-center wow animated fadeInDown">
+										<h2>VTA</h2>
+										<div id="menu1" align="center">
+			              <form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
+			              <label for="membership">Choose a VTA Line</label>
+			              <select name="membership" id="vta">
+			                <option value="22-0">22-Inbound</option>
+			                <option value="22-1">22-outbound</option>
+			                <option value="23-0">23-Inbound</option>
+			                <option value="23-1">23-outbound</option>
+			                <option value="60-0">60-Inbound</option>
+			                <option value="60-1">60-outbound</option>
+			                <option value="20-0">20-Inbound</option>
+			                <option value="20-1">20-outbound</option>
+			                <option value="500-0">Rapid 500-Inbound</option>
+			                <option value="500-1">Rapid 500-outbound</option>
 
-									</select>
-									<br />
+			              </select>
+			              <br/>
 
-									<button type="button" class="btn btn-blue btn-effect" class="tablinks"
-										onclick="opentab(event,'displayvta');loadroute()" />Submit</button>
-								</form>
+			              <button type="button" class="btn btn-blue btn-effect" class="tablinks" onclick="opentab(event,'displayvta');loadroute()"/>Submit</button>
+			            </form>
 
+									</div>
+
+
+
+
+								</div>
 							</div>
+			        <div id="displayvta" class="tabcontent">
+			          <h3>My Google Maps Demo</h3>
+			       <div id="map" align="center"></div>
+			       <div id="locmap" class="tabcontent">
+
+			       </div>
+			         <div id="cont"></div>
+			         <div class="button-option"></div>
 
 
-
-
-						</div>
-					</div>
-					<div id="displayvta" class="tabcontent">
-						<h3>My Google Maps Demo</h3>
-						<div id="map"></div>
-						<div id="cont"></div>
-
-					</div>
-			</section>
+			        </div>
+			          <div id="map2" align=center></div>
+								 <button type="button" class="btn btn-blue btn-effect" class="tablinks" onclick="opentab(event,'locmap');getdata()"/>Track</button>
+						</section>
 
 			<!-- Testimonial section -->
 			<section id="testimonials" class="parallax">
@@ -1143,21 +1310,18 @@
 			<div class="container">
 				<div class="row text-center">
 					<div class="footer-content">
-						<a class="twitter-timeline" href="https://twitter.com/bayareatransoln"
-							data-widget-id="663161561230409728">Tweets by @bayareatransoln</a>
+						<a class="twitter-timeline" href="https://twitter.com/TransitNow280"
+							data-widget-id="663161561230409728">Tweets by @TransitNow280/a>
 						<div class="footer-social">
 							<ul>
 								<li class="wow animated zoomIn" data-wow-delay="0.3s"><a
-										href="https://twitter.com/bayareatransoln"><i
+										href="https://twitter.com/TransitNow280"><i
 											class="fa fa-twitter fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a href="#"><i
-											class="fa fa-skype fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a
-										href="https://www.instagram.com/bayareatransitusa/"><i
-											class="fa fa-instagram fa-3x"></i></a></li>
+
+
 							</ul>
 						</div>
-						<p>Design And developed By Tech Wizards © 2015</p>
+						<p>Design And developed By Techie TransitNow</p>
 					</div>
 				</div>
 			</div>
