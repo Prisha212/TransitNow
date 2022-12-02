@@ -12,6 +12,7 @@
 		<!-- Always force latest IE rendering engine or request Chrome Frame -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>Transit Now</title>
+
 		<!-- Meta Description -->
 		<meta name="description"
 			content="bay area transit provides one click solution for your navigation needs. It provides real time updates for bay area bus and train services">
@@ -24,7 +25,6 @@
 		<!-- CSS
 		================================================== -->
 
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
 
 		<!-- Fontawesome Icon font -->
 		<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -119,7 +119,7 @@
 }
 		</style>
 		<script type="text/javascript" charset="utf-8"
-			src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
 			</script>
 		<script async defer
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDcPwALh103uGlDrdPVD2xcKmA7BY5Weo&callback=initMap">
@@ -128,7 +128,7 @@
 		<script type="text/javascript"
 			charset="utf-8"
 			src=
-			"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+			"https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
 		</script>
 		<script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDcPwALh103uGlDrdPVD2xcKmA7BY5Weo&callback=initMap">
@@ -141,7 +141,7 @@
 		{
 			var myVar = document.getElementById('vta').value;
 
-			var url="http://api.511.org/transit/StopMonitoring?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&agency=SC&format=json"
+			var url="https://api.511.org/transit/StopMonitoring?api_key=fca5bd18-ee76-4ff2-b679-855a255d50ae&agency=SC&format=json"
 			const response = await fetch(url);
 			var res = await response.json();
 			console.log(res);
@@ -181,9 +181,10 @@ console.log(locarray);
 		function clickbutton()
 		{
 			var k=event.srcElement.id;
-
-				 alert( $(this).closest("th"))
+      	$('#empTable').empty();
+				 //alert( $(this).closest("th"))
 			console.log(k.substring(k.length-1))
+			$('#cont').load(document.URL +  ' #cont');
 			display(k.substring(k.length-1));
 		};
 		function clicked()
@@ -208,8 +209,9 @@ console.log(locarray);
 				evt.currentTarget.className += " active";
 		 };
 		 var final=[]
-		 var num=22;
+		 var num;
 		 async function drawroute(num,dir){
+
 			 url='https://gis.vta.org/gis/rest/services/Transit/BusRoutes_StopsJanuary2020_ODP/MapServer/1/query?where=LineID1%20%3D%20%27'+num+'%27&outFields=*&outSR=4326&f=geojson'
 
 				 const response = await fetch(url);
@@ -304,9 +306,11 @@ btn.addEventListener('click',clickbutton)
 async function timetable(num,res)
 {
 console.log("Iam in timetable");
-url1='https://api.511.org/transit/timetable?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&line_id='+num+'&format=json';
+url1='https://api.511.org/transit/timetable?api_key=fca5bd18-ee76-4ff2-b679-855a255d50ae&operator_id=SC&line_id='+num+'&format=json';
 const response = await fetch(url1);
 storedata = await response.json();
+
+	$('#empTable').empty();
 timebuttons(storedata);
 }
 async function display(number)
@@ -314,7 +318,7 @@ async function display(number)
 				var a=parseInt(number);
 				arrHead=[];
 
-				 var s=storedata['Content']['TimetableFrame'][a]['vehicleJourneys']['ServiceJourney'][2]['calls']['Call'];
+				 var s=storedata['Content']['TimetableFrame'][a]['vehicleJourneys']['ServiceJourney'][0]['calls']['Call'];
 					var z= storedata['Content']['TimetableFrame'][a]['vehicleJourneys']['ServiceJourney']
 
 				 console.log(s);
@@ -329,12 +333,12 @@ async function display(number)
 				 {
 					 console.log(x);
 					 console.log(x['ScheduledStopPointRef']['ref']);
-					 //url2='https://api.511.org/transit/stopplaces?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json';
+					 //url2='https://api.511.org/transit/stopplaces?api_key=7889e66c-368b-4ec9-8bf6-a4add48f1d2e &operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json';
 					 //const secondresponse=await fetch(url2);
 					 //var nextres=await secondresponse.json();
 						//promiseArray.push(fetch('https://api.511.org/transit/stopplaces?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json'))
 					 //console.log(nextres['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name']);
-					 var t=await getname('https://api.511.org/transit/stopplaces?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json')
+					 var t=await getname('https://api.511.org/transit/stopplaces?api_key=fca5bd18-ee76-4ff2-b679-855a255d50ae&operator_id=SC&stop_id='+x['ScheduledStopPointRef']['ref']+'&format=json')
 
 					 arrHead.push(t['Siri']['ServiceDelivery']['DataObjectDelivery']['dataObjects']['SiteFrame']['stopPlaces']['StopPlace']['Name'])
 				 }
@@ -408,6 +412,10 @@ async function display(number)
 	 let map;
 	 async function funcName(num,dir){
 		 var dir_id;
+		 if(num=="500" || num==523)
+		 {
+			 num="Rapid "+num;
+		 }
 		 if(num!=60 && num!=500)
 		 {
 			if(dir=='0')
@@ -427,7 +435,7 @@ async function display(number)
 				 dir_id='S'
 			}
 		}
-		 url='https://api.511.org/transit/stops?api_key=52b19e2a-2be1-48d3-804d-d58b600c65df&operator_id=SC&line_id='+num+'&format=json&Direction_id='+dir_id;
+		 url='https://api.511.org/transit/stops?api_key=fca5bd18-ee76-4ff2-b679-855a255d50ae&operator_id=SC&line_id='+num+'&format=json&Direction_id='+dir_id;
 
 			 const response = await fetch(url);
 			 var res = await response.json();
@@ -535,6 +543,7 @@ route=await drawroute(num,dir);
 			var myVar = document.getElementById('vta').value;
 			initMap();
 			$('#empTable').empty();
+
 
 
 			 plot(myVar.substring(0, 2),myVar.substring(myVar.length-1));
@@ -1059,8 +1068,7 @@ route=await drawroute(num,dir);
 			                <option value="60-1">60-outbound</option>
 			                <option value="20-0">20-Inbound</option>
 			                <option value="20-1">20-outbound</option>
-			                <option value="500-0">Rapid 500-Inbound</option>
-			                <option value="500-1">Rapid 500-outbound</option>
+
 
 			              </select>
 			              <br/>
@@ -1076,20 +1084,20 @@ route=await drawroute(num,dir);
 								</div>
 							</div>
 			        <div id="displayvta" class="tabcontent">
-			          <h3>My Google Maps Demo</h3>
-			       <div id="map"></div>
-			       <div id="locmap" class="tabcontent">
 
-			       </div>
+			       <div id="map"></div>
+
 			         <div id="cont"></div>
 			         <div class="button-option"></div>
+<br>
+			 <div id="map2"></div>
+								<button type="button" class="btn btn-blue btn-effect" class="tablinks" onclick="getdata()"/>Track</button>
 
 
 			        </div>
 							<br>
 							<br>
-			          <div id="map2"></div>
-								 <button type="button" class="btn btn-blue btn-effect" class="tablinks" onclick="opentab(event,'locmap');getdata()"/>Track</button>
+
 						</section>
 <br>
 <br>
