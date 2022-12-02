@@ -66,10 +66,16 @@
 			#map {
 	      height: 400px;
 	      width: 400px;
+				align-self: center;
+
+
 	    }
 	    #map2 {
 	      height: 400px;
 	      width: 400px;
+
+
+
 	    }
 
 				table {
@@ -102,6 +108,15 @@
 		overflow: auto;
 		align-self: center;
 	}
+	input[type=button], input[type=submit], input[type=reset] {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
 		</style>
 		<script type="text/javascript" charset="utf-8"
 			src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
@@ -1062,7 +1077,7 @@ route=await drawroute(num,dir);
 							</div>
 			        <div id="displayvta" class="tabcontent">
 			          <h3>My Google Maps Demo</h3>
-			       <div id="map" align="center"></div>
+			       <div id="map"></div>
 			       <div id="locmap" class="tabcontent">
 
 			       </div>
@@ -1071,9 +1086,13 @@ route=await drawroute(num,dir);
 
 
 			        </div>
-			          <div id="map2" align=center></div>
+							<br>
+							<br>
+			          <div id="map2"></div>
 								 <button type="button" class="btn btn-blue btn-effect" class="tablinks" onclick="opentab(event,'locmap');getdata()"/>Track</button>
 						</section>
+<br>
+<br>
 
 			<!-- Testimonial section -->
 			<section id="testimonials" class="parallax">
