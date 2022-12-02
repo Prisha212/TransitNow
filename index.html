@@ -20,7 +20,8 @@
 
 		<!-- Mobile Specific Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-
+				<!-- Bootastrap for bart table -->
+				<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 		<!-- CSS
 		================================================== -->
 
@@ -56,6 +57,7 @@
 			});
 
 		</script>
+
 		<style>
 			.tabcontent {
 				display: none;
@@ -88,6 +90,15 @@
 				}
 				#imageBart {
 					display: none;
+				}
+				#stopsTable {
+					display: none;
+				}
+				.overflow-container {
+					max-height: 400px;
+					max-width: 500px;
+					overflow: auto;
+					align-self: center;
 				}
 		</style>
 		<script type="text/javascript" charset="utf-8"
@@ -335,8 +346,12 @@
 			// load bart routes
 			function showBart() {
 				document.getElementById('imageBart').style.display = "block";
-
 			}
+			//load bart stations table
+			function showStopsTable() {
+				document.getElementById("stopsTable").style.display = "block";
+			}
+			
 		</script>
 	</head>
 
@@ -547,26 +562,242 @@
 						<div id="menu1" align="center">
 							<form class="search" id="calculate-route" name="calculate-route" action="#" method="get">
 								<label for="membership">Click below to get Bart routes</label>
-								<!-- <select name="membership" id="membership">
-									<option value="Green">Green Line</option>
-									<option value="yellow">Yellow Line</option>
-									<option value="red" selected>Red Line </option>
-									<option value="blue">Blue Line</option>
-									<option value="Orange">Orange Line</option>
-								</select> -->
-
 								<br/>
 							</form>
 							
 							<button type="button" class="btn btn-blue btn-effect" onclick="showBart()"/>GET ROUTES</button>
 							<br /><br>
-							<div id="Bart">
+
+							<div>
 								<img src="img/BARTSystemMapAPI-1.jpg" id="imageBart" width="800" height="600" alt="bart">
 							</div>
-
+							<br>
+							<br>
+							
+							<button style="margin-left: 20px;" type="button" class="btn btn-blue btn-effect" onclick="showStopsTable()"/>LIST OF BART STATIONS</button>
+							<br>
+							<br>
+							<div class="overflow-container" style="align-self: center;">
+								<table id="stopsTable" style="margin-left: 20px;" class="table table-bordered table-hover">
+									<thead class="table-success">
+									  <tr>
+										<th scope="col">#</th>
+										<th scope="col">Bart Station</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr>
+										<th scope="row">1</th>
+										<td>12th St. Oakland City Center</td>
+									  </tr>
+									  <tr>
+										<th scope="row">2</th>
+										<td>16th St. Mission</td>
+									  </tr>
+									  <tr>
+										<th scope="row">3</th>
+										<td>19th St. Oakland</td>
+									  </tr>
+									  <tr>
+										<th scope="row">4</th>
+										<td>24th St. Mission</td>
+									  </tr>
+									  <tr>
+										<th scope="row">5</th>
+										<td>Antioch</td>
+									  </tr>
+									  <tr>
+										<th scope="row">6</th>
+										<td>Ashby</td>
+									  </tr>
+									  <tr>
+										<th scope="row">7</th>
+										<td>Balboa Park</td>
+									  </tr>
+									  <tr>
+										<th scope="row">8</th>
+										<td>Bay Fair</td>
+									  </tr>
+									  <tr>
+										<th scope="row">9</th>
+										<td>Berryessa/North San Jose</td>
+									  </tr>
+									  <tr>
+										<th scope="row">10</th>
+										<td>Castro Valley</td>
+									  </tr>
+									  <tr>
+										<th scope="row">11</th>
+										<td>Civic Center/UN Plaza</td>
+									  </tr>
+									  <tr>
+										<th scope="row">12</th>
+										<td>Coliseum</td>
+									  </tr>
+									  <tr>
+										<th scope="row">13</th>
+										<td>Colma</td>
+									  </tr>
+									  <tr>
+										<th scope="row">14</th>
+										<td>Concord</td>
+									  </tr>
+									  <tr>
+										<th scope="row">15</th>
+										<td>Daly City</td>
+									  </tr>
+									  <tr>
+										<th scope="row">16</th>
+										<td>Downtown Berkeley</td>
+									  </tr>
+									  <tr>
+										<th scope="row">17</th>
+										<td>Dublin/Pleasanton</td>
+									  </tr>
+									  <tr>
+										<th scope="row">18</th>
+										<td>El Cerrito del Norte</td>
+									  </tr>
+									  <tr>
+										<th scope="row">19</th>
+										<td>El Cerrito Plaza</td>
+									  </tr>
+									  <tr>
+										<th scope="row">20</th>
+										<td>Embarcadero</td>
+									  </tr>
+									  <tr>
+										<th scope="row">21</th>
+										<td>Fremont</td>
+									  </tr>
+									  <tr>
+										<th scope="row">22</th>
+										<td>Fruitvale</td>
+									  </tr>
+									  <tr>
+										<th scope="row">23</th>
+										<td>Glen Park</td>
+									  </tr>
+									  <tr>
+										<th scope="row">24</th>
+										<td>Hayward</td>
+									  </tr>
+									  <tr>
+										<th scope="row">25</th>
+										<td>Lafayette</td>
+									  </tr>
+									  <tr>
+										<th scope="row">26</th>
+										<td>Lake Merritt</td>
+									  </tr>
+									  <tr>
+										<th scope="row">27</th>
+										<td>MacArthur</td>
+									  </tr>
+									  <tr>
+										<th scope="row">28</th>
+										<td>Millbrae</td>
+									  </tr>
+									  <tr>
+										<th scope="row">29</th>
+										<td>Milpitas</td>
+									  </tr>
+									  <tr>
+										<th scope="row">30</th>
+										<td>Montgomery St.</td>
+									  </tr>
+									  <tr>
+										<th scope="row">31</th>
+										<td>North Berkeley</td>
+									  </tr>
+									  <tr>
+										<th scope="row">32</th>
+										<td>North Concord/Martinez</td>
+									  </tr>
+									  <tr>
+										<th scope="row">33</th>
+										<td>Oakland International Airport</td>
+									  </tr>
+									  <tr>
+										<th scope="row">34</th>
+										<td>Orinda</td>
+									  </tr>
+									  <tr>
+										<th scope="row">35</th>
+										<td>Pittsburg/Bay Point</td>
+									  </tr>
+									  <tr>
+										<th scope="row">36</th>
+										<td>Pittsburg Center</td>
+									  </tr>
+									  <tr>
+										<th scope="row">37</th>
+										<td>Pleasant Hill/Contra Costa Centre</td>
+									  </tr>
+									  <tr>
+										<th scope="row">38</th>
+										<td>Powell St.</td>
+									  </tr>
+									  <tr>
+										<th scope="row">39</th>
+										<td>Richmond</td>
+									  </tr>
+									  <tr>
+										<th scope="row">40</th>
+										<td>Rockridge</td>
+									  </tr>
+									  <tr>
+										<th scope="row">41</th>
+										<td>San Bruno</td>
+									  </tr>
+									  <tr>
+										<th scope="row">42</th>
+										<td>San Francisco International Airport</td>
+									  </tr>
+									  <tr>
+										<th scope="row">43</th>
+										<td>San Leandro</td>
+									  </tr>
+									  <tr>
+										<th scope="row">44</th>
+										<td>South Hayward</td>
+									  </tr>
+									  <tr>
+										<th scope="row">45</th>
+										<td>South San Francisco</td>
+									  </tr>
+									  <tr>
+										<th scope="row">46</th>
+										<td>Union City</td>
+									  </tr>
+									  <tr>
+										<th scope="row">47</th>
+										<td>Walnut Creek</td>
+									  </tr>
+									  <tr>
+										<th scope="row">48</th>
+										<td>Warm Springs/South Fremont</td>
+									  </tr>
+									  <tr>
+										<th scope="row">49</th>
+										<td>West Dublin/Pleasanton</td>
+									  </tr>
+									  <tr>
+										<th scope="row">50</th>
+										<td>West Oakland</td>
+									  </tr>
+									</tbody>
+								  </table>
+							</div>
+						</div>
+						<div> 
+								
+										
+									
+								
+							
 						</div>
 						
-
 					</div>
 
 				</div>
